@@ -8,38 +8,39 @@ window.addEventListener("load", function () {
   const totalWidth = slideCount * slideWidth + "px";
   // Dom elments
   const slider = document.querySelector("#slider-wrapper ul");
-
   const next = document.getElementById("next");
-
-  const previous = document.getElementById("prev");
+  const stop = document.getElementById("stop");
 
   let leftPosition = 0;
   let count = 0;
   slider.style.width = totalWidth;
-  //
-  next.addEventListener("click",function (e) {
-    e.preventDefault();
-    count += 1;
-    if (count == slideCount) {
-      // back to first image
-      count = 0;
-    }
-    // slide image
-    leftPosition = `-${count * slideWidth}px`;
-    slider.style.left = leftPosition;
-  });
-
   
-  previous.addEventListener("click", function (e) {
-    e.preventDefault();
-    count--;
-    if (count < 0) {
-      count = slideCount - 1;
-    }
-    //slidImage
-    console.log("ここは呼ばれます");
-    leftPosition = `-${count * slideWidth}px`;
-    slider.style.left = leftPosition;
+  let timer;
+  nextButton();
+
+  function startInterval() {
+    timer = setInterval(() => {
+      count += 1;
+      if (count == slideCount) {
+        // back to first image
+        count = 0;
+      }
+      // slide image
+      leftPosition = `-${count * slideWidth}px`;
+      slider.style.left = leftPosition;
+    }, 2000);
+  }
+
+  function nextButton() {
+    next.addEventListener("click", function (e) {
+      console.log("next");
+      startInterval();
+    });
+  }
+  
+  stop.addEventListener("click", function (e) {
+    console.log("stop");
+    clearInterval(timer);
   });
 
 });
