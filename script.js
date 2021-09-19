@@ -8,17 +8,27 @@ window.addEventListener("load", function () {
   const totalWidth = slideCount * slideWidth + "px";
   // Dom elments
   const slider = document.querySelector("#slider-wrapper ul");
-  const next = document.getElementById("next");
-  const stop = document.getElementById("stop");
+  let btn = document.getElementById("start");
 
   let leftPosition = 0;
   let count = 0;
   slider.style.width = totalWidth;
   
+  // 
   let timer;
-  nextButton();
+
+    btn.addEventListener("click", function (e) {
+    let bthId = document.querySelector("#slider-controls a").id;
+    if (bthId == "start") {
+      startInterval();
+    } else {
+      stopInterval();
+    }
+  });
 
   function startInterval() {
+    btn.id = "stop"
+    btn.innerText = "Stop";
     timer = setInterval(() => {
       count += 1;
       if (count == slideCount) {
@@ -31,16 +41,11 @@ window.addEventListener("load", function () {
     }, 2000);
   }
 
-  function nextButton() {
-    next.addEventListener("click", function (e) {
-      console.log("next");
-      startInterval();
-    });
+    function stopInterval() {
+      console.log("stop");
+        btn.id = "start";
+        btn.innerText = "Start";
+      clearInterval(timer);
   }
-  
-  stop.addEventListener("click", function (e) {
-    console.log("stop");
-    clearInterval(timer);
-  });
-
+    
 });
